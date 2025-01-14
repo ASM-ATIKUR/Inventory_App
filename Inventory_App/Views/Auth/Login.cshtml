@@ -20,6 +20,9 @@
             <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
             <div id="message" class="form-text">@ViewBag.Message</div>
         </form>
+        <form method="get" action="@Url.Action("ForgetPassword", "Auth")">
+            <button type="submit" class="btn btn-secondary" style="width: 100%; margin-top: 10px;">Forgot Password?</button>
+        </form>
     </div>
 </div>
 

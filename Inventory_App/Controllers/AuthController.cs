@@ -57,7 +57,15 @@ namespace Inventory_App.Controllers
             }
             else
             {
-                Message = "Password reset Succeded";
+                BaseAccount baseAccount = new BaseAccount();
+                if (baseAccount.ResetPassword(username, newPassword))
+                {
+                    Message = "Password reset succeeded";
+                }
+                else
+                {
+                    Message = "Password reset failed";
+                }
             }
             ViewBag.Message = Message;
             return View();

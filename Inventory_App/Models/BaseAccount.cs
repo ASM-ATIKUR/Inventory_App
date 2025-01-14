@@ -47,5 +47,37 @@ namespace Inventory_App.Models
             }
             return status;
         }
+
+        public bool ResetPassword(string username, string newPassword)
+        {
+            bool status = false;
+            string ConnString = ConfigurationManager.ConnectionStrings["ConnString"].ToString();
+            SqlConnection sqlConnection = new SqlConnection(ConnString);
+
+            try
+            {
+                sqlConnection.Open();
+                string Query = "UPDATE Members SET Password=@Password WHERE UserName=@UserName";
+                SqlCommand cmd = new SqlCommand(Query, sqlConnection);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("@UserName", username);
+                cmd.Parameters.AddWithValue("@Password", newPassword);
+                cmd.CommandTimeout = 0;
+
+                int rowsAffected = cmd.ExecuteNonQuery();
+                if (rowsAffected > 0)
+                {
+                    status = true;
+                }
+
+                cmd.Dispose();
+                sqlConnection.Close();
+            }
+            catch (Exception ex)
+            {
+                sqlConnection.Close();
+            }
+            return status;
+        }
     }
 }
