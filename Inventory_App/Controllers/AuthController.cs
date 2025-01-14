@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Inventory_App.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,13 +16,48 @@ namespace Inventory_App.Controllers
             ViewBag.Message = "";
             return View();
         }
+
+        public ActionResult ForgetPassword()
+        {
+            ViewBag.Message = "";
+            return View("ForgetPassword");
+        }
+
         [HttpPost]
         public ActionResult Login(string userNameText, string passwordText)
         {
+            Session["UserName"] = "";
             string Message = "Unauthorized";
-            if(userNameText == "Ost@abc.com" && passwordText == "123")
+
+            BaseAccount baseAccount = new BaseAccount();
+            if (baseAccount.VerifyUser(userNameText, passwordText))
             {
+                Message = "Authorized";
+                Session["UserName"] = userNameText; ; 
                 return RedirectToAction("Dashboard", "Inventory");
+            }
+            ViewBag.Message = Message;
+            return View("Login");
+        }
+
+        public ActionResult LogOut()
+        {
+            Session.Remove("UserName");
+            return View("Login");
+        }
+
+        [HttpPost]
+        public ActionResult ForgetPassword(string username, string newPassword, string confirmPassword)
+        {
+            string Message = "";
+
+            if(newPassword != confirmPassword)
+            {
+                Message = "Password does not match";
+            }
+            else
+            {
+                Message = "Password reset Succeded";
             }
             ViewBag.Message = Message;
             return View();
