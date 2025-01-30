@@ -20,7 +20,7 @@ namespace Inventory_App.Models
             try
             {
                 sqlConnection.Open();
-                string Query = "select * from Members where UserName='" + UserName + "' and Password='" + Password + "'";
+                string Query = "select * from OSTMember where UserName='" + UserName + "' and Password='" + Password + "'";
                 SqlCommand cmd = new SqlCommand(Query, sqlConnection);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.Clear();
@@ -57,7 +57,7 @@ namespace Inventory_App.Models
             try
             {
                 sqlConnection.Open();
-                string Query = "UPDATE Members SET Password=@Password WHERE UserName=@UserName";
+                string Query = "UPDATE OSTMember SET Password=@Password WHERE UserName=@UserName";
                 SqlCommand cmd = new SqlCommand(Query, sqlConnection);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@UserName", username);
