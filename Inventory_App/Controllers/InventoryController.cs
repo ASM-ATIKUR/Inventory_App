@@ -1,4 +1,4 @@
-using Inventory_App.Models;
+﻿using Inventory_App.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,6 +86,26 @@ namespace Inventory_App.Controllers
             }
         }
 
-        
+        public ActionResult RegisterCustomer()
+        {
+            if (Session["Message"] == null)
+                Session["Message"] = "";
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RegisterCustomer(FormCollection frmColl)
+        {
+            Boolean status = BaseCustomer.RegisterCustomer(frmColl);
+            if (status)
+            {
+                Session["Message"] = "Save Successfully";
+            }
+            else
+            {
+                Session["Message"] = "Error while saving the customer.";
+            }
+            return View();
+        }
     }
 }

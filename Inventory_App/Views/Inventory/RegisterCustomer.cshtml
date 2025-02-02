@@ -1,0 +1,100 @@
+﻿@using Inventory_App.Models
+@using System.Data
+@{
+    ViewBag.Title = "RegisterCustomer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    DataTable dataTable = BaseCustomer.ListCustomer();
+    var customers = (from p in dataTable.AsEnumerable()
+                     select new
+                     {
+                         CustomerID = p.Field<Int32>("CustomerID").ToString(),
+                         CustomerName = p.Field<string>("CustomerName").ToString(),
+                         CustomerMobile = p.Field<string>("CustomerMobile").ToString(),
+                         CustAddress = p.Field<string>("CustAddress").ToString()
+                     }).ToList();
+}
+<style>
+    .ui-widget-overlay {
+        background: #000 !important;
+    }
+
+    <style >
+    table.ws-table-all {
+        margin: 20px 0;
+        display: table;
+        border: 1px solid #ccc;
+    }
+
+    .ws-table-all tr:nth-child(2n+1) {
+        background-color: #fff;
+    }
+
+    .ws-table-all tr {
+        border-bottom: 1px solid #ddd;
+    }
+
+    #customers th {
+        padding-top: 11px;
+        padding-bottom: 11px;
+        background-color: #04AA6D;
+        color: white;
+    }
+
+    #customers td, #customers th {
+        text-align: left;
+        padding: 8px;
+    }
+
+    .ws-table-all td, .ws-table-all th {
+        padding: 8px 8px;
+        display: table-cell;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    .ws-table-all th {
+        padding-top: 11px;
+        padding-bottom: 11px;
+        background-color: #04AA6D;
+        color: white;
+    }
+</style>
+</style>
+<script>
+    function ShowModal() {
+        $('#dvModalCustomer').dialog({
+            modal: true
+        });
+    }
+</script>
+<div class="card">
+    <div class="card-header">
+        Customer List
+        <a href="#" class="btn btn-sm btn-primary" onclick="ShowModal()">Add New</a>
+    </div>
+    <div class="card-body">
+        <div style="width:100%;height:400px;overflow:auto">
+            <table class="ws-table-all" style="width:100%">
+                <tr>
+                    <th> CustomerId </th>
+                    <th> Customer Name </th>
+                    <th> Customer Mobile </th>
+                    <th> Address </th>
+                </tr>
+                @foreach (var obj in customers)
+                {
+                    <tr>
+                        <td>@obj.CustomerID</td>
+                        <td>@obj.CustomerName</td>
+                        <td>@obj.CustomerMobile</td>
+                        <td>@obj.CustAddress</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Views/Inventory/_PartialModalCustomerEntry.cshtml")
